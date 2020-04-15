@@ -19,6 +19,7 @@ pool:
 steps:
   - script: |
       set -x
+      export MACOSX_DEPLOYMENT_TARGET=10.9
       pkgutil --pkg-info=com.apple.pkg.CLTools_Executables | grep version
       xcodebuild -version
       xcode-select -p
@@ -34,6 +35,7 @@ steps:
 
   - script: |
       set -x
+      export MACOSX_DEPLOYMENT_TARGET=10.9
       electron-forge --verbose make
       unzip -q out/make/TRIGGERcmdAgent*.zip -d ./out/make
       rm -rf out/make/TRIGGERcmdAgent.app/Contents/Resources/app/node_modules/fsevents/build/Release/.deps/private/var/folders/x_/0d9jrssn7s5glyjmpkhtszpm0000gp/T/electron-packager/darwin-x64/TRIGGERcmdAgent-darwin-x64/Electron.app
