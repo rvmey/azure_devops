@@ -11,7 +11,7 @@ variables:
   azureSubscription: 'azureDevOps'
   
   # Agent VM image name
-  vmImageName: 'macOS-10.13'
+  vmImageName: 'macOS-10.15'
 
 pool:
   vmImage: $(vmImageName)
@@ -25,6 +25,8 @@ steps:
   - script: |
       set -x
       node -v
+      xcode-select --install
+      CFLAGS=-stdlib=libc++ python3 setup.py install
       npm install -g electron-forge
       electron-forge --verbose make
       unzip -q out/make/TRIGGERcmdAgent*.zip -d ./out/make
