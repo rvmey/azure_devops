@@ -1,0 +1,60 @@
+# Node.js Express Web App to Linux on Azure
+# Build a Node.js Express app and deploy it to Azure as a Linux web app.
+# Add steps that analyze code, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
+
+trigger:
+- master
+
+variables:
+
+  # Azure Resource Manager connection
+  azureSubscription: 'azureDevOps'
+  
+  # Agent VM image name
+  vmImageName: 'macos-latest'
+
+
+# Xcode
+# Build, test, and archive an Xcode workspace on macOS.
+# Add steps that install certificates, test, sign, and distribute an app, save build artifacts, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/xcode
+
+trigger:
+- master
+
+pool:
+  vmImage: $(vmImageName)
+
+steps:
+  - task: Xcode@5
+    inputs:
+      actions: 'build'
+      scheme: ''
+      sdk: 'iphoneos'
+      configuration: 'Release'
+      xcWorkspacePath: '**/*.xcodeproj/project.xcworkspace'
+      xcodeVersion: 'default' # Options: 8, 9, 10, default, specifyPath
+      versionSpec: "8.x"
+    displayName: "Build TRIGGERcmd Mac agent"
+
+  - script: |
+      npm install
+    displayName: "npm install"
+
+  - script: |
+      cp macpackage.json package.json
+      npm install -g electron-forge
+      electron-forge --verbose make
+      unzip -q out/make/TRIGGERcmdAgent*.zip -d ./out/make
+      rm -rf out/make/TRIGGERcmdAgent.app/Contents/Resources/app/node_modules/fsevents/build/Release/.deps/private/var/folders/x_/0d9jrssn7s5glyjmpkhtszpm0000gp/T/electron-packager/darwin-x64/TRIGGERcmdAgent-darwin-x64/Electron.app
+      echo Signing TRIGGERcmdAgent.app
+      npm install -g electron-osx-sign
+      electron-osx-sign ./out/make/TRIGGERcmdAgent.app
+      codesign -dv out/make/TRIGGERcmdAgent.app
+      cd out/make
+      npm install -g create-dmg
+      create-dmg TRIGGERcmdAgent.app
+      cd ../..
+
+    displayName: "Build"

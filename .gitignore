@@ -1,0 +1,13 @@
+node_modules/*
+!node_modules/electron-compilers
+node_modules/electron-compilers/*
+!node_modules/electron-compilers/lib
+node_modules/electron-compilers/lib/*
+!node_modules/electron-compilers/lib/passthrough.js
+out
+.DS_Store
+package-lock.json
+*.log
+package.json
+app/js/*
+CodeSigningCert.pfx
