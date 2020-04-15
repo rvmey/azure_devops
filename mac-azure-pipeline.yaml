@@ -19,7 +19,10 @@ pool:
 steps:
   - script: |
       set -x
-      nvm use 13.12.0
+      CFLAGS=-stdlib=libc++ python setup.py install
+      node -v
+      npm install -g node-gyp
+      node-gyp -v
       npm install -g electron-forge
       electron-forge --version
       cp macpackage.json package.json
@@ -28,9 +31,6 @@ steps:
 
   - script: |
       set -x
-      node -v
-      xcode-select --install
-      CFLAGS=-stdlib=libc++ python3 setup.py install
       electron-forge --verbose make
       unzip -q out/make/TRIGGERcmdAgent*.zip -d ./out/make
       rm -rf out/make/TRIGGERcmdAgent.app/Contents/Resources/app/node_modules/fsevents/build/Release/.deps/private/var/folders/x_/0d9jrssn7s5glyjmpkhtszpm0000gp/T/electron-packager/darwin-x64/TRIGGERcmdAgent-darwin-x64/Electron.app
