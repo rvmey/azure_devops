@@ -18,18 +18,11 @@ pool:
 
 steps:
   - script: |
-      echo Listing of $pwd
-      ls -al
-      cd .git
-      echo Listing of $pwd
-      ls -al
+      cp macpackage.json package.json
       npm install
     displayName: "npm install"
 
   - script: |
-      echo Listing of $pwd
-      ls -al
-      cp macpackage.json package.json
       npm install -g electron-forge
       electron-forge --verbose make
       unzip -q out/make/TRIGGERcmdAgent*.zip -d ./out/make
