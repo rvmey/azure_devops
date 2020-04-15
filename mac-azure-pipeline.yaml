@@ -11,7 +11,7 @@ variables:
   azureSubscription: 'azureDevOps'
   
   # Agent VM image name
-  vmImageName: 'macOS-10.14'
+  vmImageName: 'macOS-10.13'
 
 pool:
   vmImage: $(vmImageName)
@@ -23,6 +23,7 @@ steps:
     displayName: "npm install"
 
   - script: |
+      set -x
       node -v
       npm install -g electron-forge
       electron-forge --verbose make
