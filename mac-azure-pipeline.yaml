@@ -18,14 +18,11 @@ pool:
 
 steps:
   - script: |
+      set -x
       ls /Applications
       cp /Applications/Xcode_9.4.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/usr/lib/libstdc++.* /Applications/Xcode_11.3.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/usr/lib/
       cp /Applications/Xcode_9.4.1.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/usr/lib/libstdc++.* /Applications/Xcode_11.3.1.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/usr/lib/
-      set -x
-      CFLAGS=-stdlib=libc++ python setup.py install
       node -v
-      npm install -g node-gyp
-      node-gyp -v
       npm install -g electron-forge
       electron-forge --version
       cp macpackage.json package.json
