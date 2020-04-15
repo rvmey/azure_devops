@@ -17,18 +17,6 @@ pool:
   vmImage: $(vmImageName)
 
 steps:
-  - task: Xcode@5
-    inputs:
-      actions: 'build'
-      scheme: ''
-      sdk: 'iphoneos'
-      configuration: 'Release'
-      # xcWorkspacePath: '**/*.xcodeproj/project.xcworkspace'
-      xcWorkspacePath: '.'
-      xcodeVersion: 'default' # Options: 8, 9, 10, default, specifyPath
-      versionSpec: "8.x"
-    displayName: "Build TRIGGERcmd Mac agent"
-
   - script: |
       npm install
     displayName: "npm install"
